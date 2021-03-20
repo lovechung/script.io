@@ -1,0 +1,149 @@
+{
+    experimental_http3
+    # 测试环境生成tls证书专用，生产环境中去除该项
+    #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+(common_headers) {
+    encode gzip
+    tls {
+        on_demand
+    }
+}
+
+(secure_headers) {
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Frame-Options SAMEORIGIN
+        X-Content-Type-Options nosniff
+    }
+}
+
+www.iishoni.com {
+    import common_headers
+    redir https://iishoni.com{uri}
+}
+
+iishoni.com {
+    import common_headers
+    root * /app/blog
+    try_files {path} /index.html
+    file_server
+}
+
+admin.iishoni.com {
+    import common_headers
+    root * /app/blog-admin
+    file_server
+}
+
+live2d.iishoni.com {
+    import common_headers
+    root * /app/live2d
+    file_server
+}
+
+mariadb.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:3306
+}
+
+redis.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:6379
+}
+
+mongo.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:27017
+}
+
+file.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8080
+}
+
+zhcw.file.iishoni.com {
+    import common_headers
+    root * /app/file
+    file_server /* browse
+}
+
+arti.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8082
+}
+
+jira.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8083
+}
+
+confluence.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8084
+}
+
+drone.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8085
+}
+
+job.iishoni.com {
+    import common_headers
+    rewrite / /xxl-job-admin
+    reverse_proxy 127.0.0.1:8086
+}
+
+mock.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:7300
+}
+
+gitea.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:3000
+}
+
+grafana.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:3001
+}
+
+consul.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:8500
+}
+
+frp.iishoni.com {
+    import common_headers
+    reverse_proxy 127.0.0.1:10021
+}
+
+score.yeexun.com.cn {
+    import common_headers
+    root * /app/score/public
+    
+    @tp_rewrite {
+        not file 
+    }
+    route {
+        file_server /static/*   
+        rewrite @tp_rewrite index.php/{uri}
+    }
+
+    @phpFiles {
+        #path *.php
+    }
+    reverse_proxy @phpFiles 127.0.0.1:9000 {
+        transport fastcgi {
+            root /var/www/html
+            split .php
+        }
+    }
+
+    log {
+        output file /app/logs/score-system.log
+    }
+}
+
