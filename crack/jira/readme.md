@@ -1,4 +1,4 @@
 - 使用镜像：registry.cn-hangzhou.aliyuncs.com/lovechung/jira
-- 进入容器：docker exec -it jira bash
-- 执行agent包：java -jar atlassian-agent.jar -d -m xxx@xxx.com -n BAT -p jira -o http://192.168.1.60 -s xxx(id)
+- 进入容器：`docker exec -it jira bash`
+- 执行agent包：`java -jar atlassian-agent.jar -d -m xxx@xxx.com -n BAT -p jira -o http://192.168.1.60 -s xxx(id)`
 - 拷贝license code
