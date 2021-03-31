@@ -11,6 +11,6 @@
     exit - exit
   ```
   
-  先选择2，输入artifactory目录：`/opt/jfrog/artifactory/app/artifactory/tomcat/` （注意：必须是 webapps/artifactory.war 所在的目录）
-  再选择1，生成license code，退出
+  - 先选择2，输入artifactory目录：`/opt/jfrog/artifactory/app/artifactory/tomcat/` （注意：必须是 webapps/artifactory.war 所在的目录）
+  - 再选择1，生成license code，退出
 - 拷贝license code
