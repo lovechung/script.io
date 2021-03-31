@@ -1,0 +1,10 @@
+- 使用镜像：registry.cn-hangzhou.aliyuncs.com/lovechung/confluence
+- 进入容器：`docker exec -it confluence /bin/sh`
+- 删除(或备份替换)两个包：
+  - `rm -rf /opt/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-decoder-v2-xxx.jar`（版本号）
+  - `rm -rf /opt/atlassian/confluence/confluence/WEB-INF/atlassian-bundled-plugins/atlassian-universal-plugin-manager-plugin-xxx.jar`（版本号）
+- 拷贝破解包至容器对应目录：
+  - `docker cp atlassian-extras-decoder-v2-3.2.jar confluence:/opt/atlassian/confluence/confluence/WEB-INF/lib/`
+  - `docker cp atlassian-universal-plugin-manager-plugin-2.22.jar confluence:/opt/atlassian/confluence/confluence/WEB-INF/atlassian-bundled-plugins/`
+- 重启容器：`docker-compose restart confluence`
+- 页面上直接点击“获取试用授权”
