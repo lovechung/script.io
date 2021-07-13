@@ -30,6 +30,7 @@ spec:
             - name: http2
               port: 80
               targetPort: 8080
+              # 映射到kind/node容器的端口，需与kind-config配置的端口一致
               nodePort: 30000
             - name: https
               port: 443
