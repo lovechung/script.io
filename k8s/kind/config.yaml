@@ -13,6 +13,7 @@ nodes:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
   extraPortMappings:
+  # kind/node容器中映射出来的端口，istio gateway搭配使用的话，只需要暴露80和443即可
   - containerPort: 80
     hostPort: 80
     listenAddress: "0.0.0.0"
