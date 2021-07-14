@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: access-kuboard-global
+  namespace: istio-system
+spec:
+  endpoints:
+  - address: 10.96.51.60
+    ports:
+      http: 30080
+  exportTo:
+  - '*'
+  hosts:
+  - 10.96.51.60
+  ports:
+  - name: http
+    number: 30080
+    protocol: http
+  resolution: DNS
