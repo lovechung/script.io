@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: kuboard-gateway
-  namespace: kuboard
+  #namespace: kuboard
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -18,7 +18,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kuboard
-  namespace: kuboard
+  #namespace: kuboard
 spec:
   hosts:
   - "*"
