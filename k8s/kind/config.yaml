@@ -2,7 +2,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: demo
 networking:
-  apiServerAddress: "192.168.0.223"
+  apiServerAddress: "127.0.0.1"
   apiServerPort: 6443
 nodes:
 - role: control-plane
@@ -13,7 +13,7 @@ nodes:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
   extraPortMappings:
-  # kind/node容器中映射出来的端口，istio.gateway搭配使用的话，需与其暴露的nodeport保持一致
+  # kind/node容器中映射出来的端口，与istio.gateway搭配使用的话，需与其暴露的nodeport保持一致
   - containerPort: 30000
     hostPort: 30000
     listenAddress: "0.0.0.0"
