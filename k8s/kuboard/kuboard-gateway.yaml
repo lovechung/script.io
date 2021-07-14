@@ -30,6 +30,6 @@ spec:
         prefix: /kuboard
     route:
     - destination:
-        host: kuboard
+        host: kuboard-v3
         port:
           number: 30080
