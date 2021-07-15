@@ -28,6 +28,8 @@ spec:
   - match:
     - uri:
         prefix: /app
+    rewrite:
+      uri: " "
     route:
     - destination:
         host: wshoto-demo-app
@@ -36,6 +38,8 @@ spec:
   - match:
     - uri:
         prefix: /user
+    rewrite:
+      uri: " "
     route:
     - destination:
         host: wshoto-demo-user
