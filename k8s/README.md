@@ -12,21 +12,32 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 EOF
-
+```
+```bash
 yum install -y kubectl
 ```
 
 #### kubectl使用bash自动补全
 ```bash
 yum install bash-completion
+```
+```bash
 echo 'source <(kubectl completion bash)' >>~/.bashrc
+```
+```bash
 kubectl completion bash >/etc/bash_completion.d/kubectl
+```
+```bash
 source ~/.bashrc
 ```
 
 ### 安装kind
 ```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+```
+```bash
 chmod +x ./kind
+```
+```bash
 mv ./kind /usr/local/bin/
 ```
