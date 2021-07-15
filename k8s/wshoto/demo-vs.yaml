@@ -27,7 +27,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /api
+        prefix: /app
     route:
     - destination:
         host: wshoto-demo-app
@@ -35,7 +35,7 @@ spec:
           number: 7372
   - match:
     - uri:
-        prefix: /users
+        prefix: /user
     route:
     - destination:
         host: wshoto-demo-user
