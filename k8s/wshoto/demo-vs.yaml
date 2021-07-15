@@ -21,7 +21,7 @@ metadata:
   namespace: demo
 spec:
   hosts:
-  - "demo.wshoto.com"
+  - "*"
   gateways:
   - wshoto-gateway
   http:
