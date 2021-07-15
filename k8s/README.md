@@ -3,7 +3,7 @@
 ### 安装kubectl
 #### 使用yum安装
 ```shell
-  cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+	cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 	[kubernetes]
 	name=Kubernetes
 	baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
@@ -18,3 +18,9 @@
 ```
 
 #### kubectl使用bash自动补全
+```bash
+	yum install bash-completion
+	echo 'source <(kubectl completion bash)' >>~/.bashrc
+	kubectl completion bash >/etc/bash_completion.d/kubectl
+	source ~/.bashrc
+```
