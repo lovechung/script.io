@@ -35,7 +35,7 @@ spec:
           number: 7372
   - match:
     - uri:
-        exact: /user
+        exact: /users
     route:
     - destination:
         host: wshoto-demo-user
