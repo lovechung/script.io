@@ -52,6 +52,3 @@ spec:
         host: reviews
         subset: v3
       weight: 70
-
-
-
