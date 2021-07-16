@@ -39,7 +39,7 @@ spec:
         host: productpage
         port:
           number: 9080
-  - route:
+    route:
     - destination:
         host: reviews
         subset: v1
