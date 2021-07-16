@@ -79,6 +79,7 @@ data:
     external_services:
       custom_dashboards:
         enabled: true
+      # 使用腾讯云自带prometheus
       prometheus:
         url: "http://172.16.0.31:9090"
     identity:
