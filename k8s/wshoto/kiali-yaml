@@ -79,6 +79,8 @@ data:
     external_services:
       custom_dashboards:
         enabled: true
+      prometheus:
+        url: "http://172.16.0.31:9090"
     identity:
       cert_file: ""
       private_key_file: ""
