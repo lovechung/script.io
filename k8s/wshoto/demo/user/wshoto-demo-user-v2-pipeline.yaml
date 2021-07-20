@@ -15,7 +15,7 @@ spec:
       default: Dockerfile
     - name: imageUrl
     - name: imageTag
-      default: v1
+      default: v2
   workspaces:
     - name: output
       mountPath: /workspace

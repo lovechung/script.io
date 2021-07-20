@@ -27,13 +27,13 @@ spec:
           - name: url
             value: https://gitee.com/wshoto/wshoto-demo-user.git
           - name: revision
-            value: v1
+            value: v2
       # resourceRef:
       #   name: wshoto-demo-user-source
   params:
     - name: imageUrl
       value: wshoto.tencentcloudcr.com/qwgj/wshoto-demo-user
     - name: imageTag
-      value: v1
+      value: v2
     - name: pathToYamlFile
       value: deployment-test.yaml
