@@ -1,2 +1,12 @@
 global:
   name: consul
+connectInject:
+  enabled: true
+controller:
+  enabled: true
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: consul-gateway
+      service:
+        type: LoadBalancer
