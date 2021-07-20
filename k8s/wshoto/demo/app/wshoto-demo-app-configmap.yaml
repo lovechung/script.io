@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     k8s-app: wshoto-demo-app
+    spring.cloud.kubernetes.config: "true"
   name: wshoto-demo-app
   namespace: demo
 data:
