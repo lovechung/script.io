@@ -7,6 +7,6 @@ controller:
 ingressGateways:
   enabled: true
   gateways:
-    - name: consul-gateway
+    - name: ingress-gateway
       service:
         type: LoadBalancer
