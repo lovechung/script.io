@@ -81,7 +81,3 @@ data:
     wshoto:
       audit-log:
         enable: true
-
-
-
-
