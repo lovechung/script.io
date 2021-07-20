@@ -27,6 +27,16 @@ spec:
   http:
   - match:
     - uri:
+        prefix: /order
+    rewrite:
+      uri: " "
+    route:
+      - destination:
+          host: wshoto-demo-order
+          port:
+            number: 7373
+  - match:
+    - uri:
         prefix: /app
     rewrite:
       uri: " "
