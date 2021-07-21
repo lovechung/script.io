@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway # use istio default controller
+    istio: ingressgateway
   servers:
   - port:
       number: 80
@@ -21,13 +21,13 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "*"
+  - "kiali.wshmi.com"
   gateways:
   - kiali-gateway
   http:
   - match:
     - uri:
-        prefix: /kiali
+        prefix: /
     route:
     - destination:
         host: kiali
