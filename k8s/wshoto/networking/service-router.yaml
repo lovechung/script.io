@@ -2,6 +2,7 @@ apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceRouter
 metadata:
   name: user
+  namespace: demo
 spec:
   routes:
     - match:
