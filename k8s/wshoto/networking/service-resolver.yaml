@@ -1,7 +1,7 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceResolver
 metadata:
-  name: user
+  name: wshoto-demo-user
 spec:
   defaultSubset: 'v1'
   subsets:
