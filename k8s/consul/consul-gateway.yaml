@@ -28,6 +28,8 @@ spec:
   - match:
     - uri:
         prefix: /consul
+    rewrite:
+      uri: /
     route:
     - destination:
         host: consul-ui
