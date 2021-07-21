@@ -37,7 +37,7 @@ spec:
     - uri:
         prefix: /connect
     rewrite:
-      url: " "
+      uri: " "
     route:
     - destination:
         host: consul-server
