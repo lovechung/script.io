@@ -21,15 +21,13 @@ metadata:
   namespace: consul
 spec:
   hosts:
-  - "*"
+  - "consul.wshmi.com"
   gateways:
   - consul-gateway
   http:
   - match:
     - uri:
-        prefix: /consul
-    rewrite:
-      uri: /
+        prefix: /
     route:
     - destination:
         host: consul-ui
