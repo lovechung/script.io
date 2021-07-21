@@ -32,4 +32,4 @@ spec:
     - destination:
         host: consul-ui
         port:
-          number: 8500
+          number: 80
