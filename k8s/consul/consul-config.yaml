@@ -1,12 +1,2 @@
 global:
   name: consul
-connectInject:
-  enabled: true
-controller:
-  enabled: true
-ingressGateways:
-  enabled: true
-  gateways:
-    - name: ingress-gateway
-      service:
-        type: LoadBalancer
