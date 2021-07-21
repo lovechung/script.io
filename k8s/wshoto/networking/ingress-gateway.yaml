@@ -1,16 +1,16 @@
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: IngressGateway
-metadata:
-  name: ingress-gateway
-spec:
-  listeners:
-    - port: 80
-      protocol: http
-      services:
-        - name: wshoto-demo-user
-          hosts:
-          - "*"
----
+# apiVersion: consul.hashicorp.com/v1alpha1
+# kind: IngressGateway
+# metadata:
+#   name: ingress-gateway
+# spec:
+#   listeners:
+#     - port: 80
+#       protocol: http
+#       services:
+#         - name: wshoto-demo-user
+#           hosts:
+#           - "*"
+# ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceRouter
 metadata:
