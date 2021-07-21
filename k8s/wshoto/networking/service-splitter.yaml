@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: user
+spec:
+  splits:
+    - weight: 90
+      serviceSubset: v1
+    - weight: 10
+      serviceSubset: v2
