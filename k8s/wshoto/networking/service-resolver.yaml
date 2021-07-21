@@ -2,7 +2,6 @@ apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceResolver
 metadata:
   name: user
-  namespace: demo
 spec:
   defaultSubset: 'v1'
   subsets:
