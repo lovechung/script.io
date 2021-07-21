@@ -30,6 +30,6 @@ spec:
         prefix: /consul
     route:
     - destination:
-        host: consul-server
+        host: consul-ui
         port:
-          number: 8500
+          number: 80
