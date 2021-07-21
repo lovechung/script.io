@@ -7,26 +7,26 @@ spec:
     - port: 80
       protocol: http
       services:
-        - name: api
+        - name: wshoto-demo-user
           hosts:
           - "*"
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceRouter
 metadata:
-  name: api
+  name: wshoto-demo-user
 spec:
   routes:
-    - match:
-        http:
-          pathPrefix: /app
-      destination:
-        service: wshoto-demo-app
-    - match:
-        http:
-          pathPrefix: /order
-      destination:
-        service: wshoto-demo-order
+#     - match:
+#         http:
+#           pathPrefix: /app
+#       destination:
+#         service: wshoto-demo-app
+#     - match:
+#         http:
+#           pathPrefix: /order
+#       destination:
+#         service: wshoto-demo-order
     - match:
         http:
           pathPrefix: /user
@@ -39,9 +39,9 @@ metadata:
   name: wshoto-demo-user
 spec:
   splits:
-    - weight: 90
+    - weight: 60
       serviceSubset: v1
-    - weight: 10
+    - weight: 40
       serviceSubset: v2
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
