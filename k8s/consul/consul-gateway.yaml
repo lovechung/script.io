@@ -33,3 +33,13 @@ spec:
         host: consul-ui
         port:
           number: 80
+  - match:
+    - uri:
+        prefix: /connect
+    rewrite:
+      url: " "
+    route:
+    - destination:
+        host: consul-server
+        port:
+          number: 8500
