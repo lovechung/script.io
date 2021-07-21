@@ -1,0 +1,123 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: wshoto-demo-app-build-task
+  namespace: tekton-pipelines
+spec:
+  inputs:
+    resources:
+      - name: wshoto-demo-app
+        type: git
+  params:
+    - name: pathToContext
+      default: .
+    - name: pathToDockerFile
+      default: Dockerfile
+    - name: imageUrl
+    - name: imageTag
+      default: v1
+  workspaces:
+    - name: output
+      mountPath: /workspace
+  steps:
+    - name: maven
+      image: maven:3.6.3-openjdk-8-slim
+      workingDir: /workspace/wshoto-demo-app
+      command:
+        - mvn
+      args:
+        - clean
+        - package
+        - -U
+        - -DskipTests
+      volumeMounts:
+        - mountPath: /root/.m2/settings.xml
+          name: config
+          subPath: settings.xml
+        - name: m2
+          mountPath: /root/.m2
+    - name: build-and-push
+      image: wshoto.tencentcloudcr.com/qwgj/kaniko-executor:latest
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=$(params.pathToDockerFile)
+        - --destination=$(params.imageUrl):$(params.imageTag)
+        - --context=/workspace/wshoto-demo-app/wshoto-demo-app-server/wshoto-demo-app-server-bootstrap/$(params.pathToContext)
+  volumes:
+    - name: config
+      configMap:
+        defaultMode: 384
+        name: maven-config
+    - name: m2
+      hostPath:
+        path: /home/docker/.m2
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: wshoto-demo-app-deploy-task
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: pathToYamlFile
+      default: deployment-test.yaml
+  workspaces:
+    - name: src
+      mountPath: /workspace
+  steps:
+    - name: run-kubectl
+      image: lachlanevenson/k8s-kubectl
+      command: ["kubectl"]
+      args:
+        - "apply"
+        - "-f"
+        - "/workspace/wshoto-demo-app/.deploy/$(params.pathToYamlFile)"
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: wshoto-demo-app-pipeline
+  namespace: tekton-pipelines
+spec:
+  resources:
+    - name: wshoto-demo-app
+      type: git
+  params:
+    - name: pathToContext
+      default: .
+    - name: imageUrl
+    - name: imageTag
+    - name: pathToYamlFile
+      default: deployment-test.yaml
+  workspaces:
+    - name: wshoto-demo-app-share-data
+  tasks:
+  - name: wshoto-demo-app-build-task
+    taskRef:
+      name: wshoto-demo-app-build-task
+    workspaces:
+      - name: output
+        workspace: wshoto-demo-app-share-data
+    params:
+      - name: pathToContext
+        value: "$(params.pathToContext)"
+      - name: imageUrl
+        value: "$(params.imageUrl)"
+      - name: imageTag
+        value: "$(params.imageTag)"
+    resources:
+      inputs:
+        - name: wshoto-demo-app
+          resource: wshoto-demo-app
+  - name: wshoto-demo-app-deploy-task
+    runAfter:
+      - wshoto-demo-app-build-task
+    taskRef:
+      name: wshoto-demo-app-deploy-task
+    workspaces:
+      - name: src
+        workspace: wshoto-demo-app-share-data
+    params:
+      - name: pathToYamlFile
+        value: "$(params.pathToYamlFile)"
