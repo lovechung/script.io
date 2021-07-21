@@ -1,10 +1,57 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: IngressGateway
 metadata:
-  name: us-east-ingress
+  name: ingress-gateway
 spec:
   listeners:
     - port: 80
       protocol: http
       services:
         - name: api
+          hosts:
+          - "*"
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: api
+spec:
+  routes:
+    - match:
+        http:
+          pathPrefix: /app
+      destination:
+        service: wshoto-demo-app
+    - match:
+        http:
+          pathPrefix: /order
+      destination:
+        service: wshoto-demo-order
+    - match:
+        http:
+          pathPrefix: /user
+      destination:
+        service: wshoto-demo-user
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: wshoto-demo-user
+spec:
+  splits:
+    - weight: 90
+      serviceSubset: v1
+    - weight: 10
+      serviceSubset: v2
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: wshoto-demo-user
+spec:
+  defaultSubset: 'v1'
+  subsets:
+    'v1':
+      filter: 'v1 in Service.Tags'
+    'v2':
+      filter: 'v2 in Service.Tags'
