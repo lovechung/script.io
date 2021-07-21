@@ -1,9 +1,19 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceRouter
 metadata:
-  name: wshoto-demo-user
+  name: api
 spec:
   routes:
+    - match:
+        http:
+          pathPrefix: /app
+      destination:
+        service: wshoto-demo-app
+    - match:
+        http:
+          pathPrefix: /order
+      destination:
+        service: wshoto-demo-order
     - match:
         http:
           pathPrefix: /user
