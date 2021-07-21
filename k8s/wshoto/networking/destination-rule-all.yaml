@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: app
+  name: wshoto-demo-app
 spec:
-  host: app
+  host: wshoto-demo-app
   subsets:
     - name: v1
       labels:
@@ -15,9 +15,9 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: order
+  name: wshoto-demo-order
 spec:
-  host: order
+  host: wshoto-demo-order
   subsets:
     - name: v1
       labels:
@@ -29,9 +29,9 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: user
+  name: wshoto-demo-user
 spec:
-  host: user
+  host: wshoto-demo-user
   subsets:
     - name: v1
       labels:
