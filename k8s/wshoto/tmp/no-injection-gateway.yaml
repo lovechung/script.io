@@ -27,7 +27,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /user
+        prefix: /no-injection/user
     rewrite:
       uri: " "
     route:
