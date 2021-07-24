@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: wshoto-gateway
+  namespace: no-injection
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: wshoto
+  namespace: no-injection
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - wshoto-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /no-injection/user
+    rewrite:
+      uri: " "
+    route:
+    - destination:
+        host: wshoto-demo-user
+        port:
+          number: 7371
