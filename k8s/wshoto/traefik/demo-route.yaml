@@ -9,7 +9,7 @@ spec:
     - match: Host(`demo.wshoto.com`)
       kind: Rule
       services:
-      - name: wshoto-demo-app
-        port: 7372
+      - name: wshoto-demo-user
+        port: 7371
 #      middlewares:
 #      - name: demo-redirectscheme
