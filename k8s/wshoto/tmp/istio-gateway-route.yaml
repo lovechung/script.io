@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: istio-gateway
+  namespace: istio-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.wshmi.com`) && PathPrefix(`/istio`)
+      kind: Rule
+      services:
+      - name: istio-ingressgateway
+        port: 80
+      middlewares:
+      - name: wshoto-header
