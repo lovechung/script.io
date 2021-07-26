@@ -1,5 +1,5 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: g
 metadata:
   name: demo-gateway
   namespace: demo
@@ -13,4 +13,4 @@ spec:
       - name: wshoto-demo-app
         port: 7372
       middlewares:
-      - name: wshoto-header
+      - name: demo-redirectscheme
