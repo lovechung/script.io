@@ -1,5 +1,5 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: g
+kind: IngressRoute
 metadata:
   name: demo-gateway
   namespace: demo
