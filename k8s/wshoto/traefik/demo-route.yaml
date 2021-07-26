@@ -12,5 +12,5 @@ spec:
       services:
       - name: wshoto-demo-app
         port: 7372
-      middlewares:
-      - name: demo-redirectscheme
+#      middlewares:
+#      - name: demo-redirectscheme
