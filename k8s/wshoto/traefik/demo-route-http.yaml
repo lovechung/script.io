@@ -6,7 +6,6 @@ metadata:
 spec:
   entryPoints:
     - web
-    - websecure
   routes:
     - match: Host(`demo1.wshoto.com`)
       kind: Rule
