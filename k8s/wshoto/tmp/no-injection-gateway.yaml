@@ -29,7 +29,7 @@ spec:
     - uri:
         prefix: /no-injection/user
     rewrite:
-      uri: " "
+      uri: /user
     route:
     - destination:
         host: wshoto-demo-user
