@@ -7,10 +7,17 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`demo.wshoto.com`)
+    - match: Host(`demo1.wshoto.com`)
       kind: Rule
       services:
       - name: wshoto-demo-user
         port: 7371
-#      middlewares:
-#      - name: demo-redirectscheme
+      middlewares:
+      - name: demo-redirectscheme
+    - match: Host(`demo2.wshoto.com`)
+        kind: Rule
+        services:
+          - name: wshoto-demo-user
+            port: 7371
+        middlewares:
+          - name: demo-redirectscheme
