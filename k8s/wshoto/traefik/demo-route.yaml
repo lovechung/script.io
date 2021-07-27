@@ -10,7 +10,7 @@ spec:
     - match: Host(`demo.wshoto.com`) && PathPrefix(`/no-injection`)
       kind: Rule
       services:
-      - name: wshoto-demo-user.no-injection.svc.cluster.local
+      - name: wshoto-demo-user
         port: 7371
 #      middlewares:
 #      - name: demo-redirectscheme
