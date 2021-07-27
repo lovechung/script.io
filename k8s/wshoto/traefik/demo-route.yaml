@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`demo.wshoto.com`) && PathPrefix(`/no-injection`)
+    - match: Host(`demo.wshoto.com`)
       kind: Rule
       services:
       - name: wshoto-demo-user
