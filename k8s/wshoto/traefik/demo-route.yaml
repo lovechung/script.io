@@ -12,20 +12,16 @@ spec:
       services:
       - name: wshoto-demo-user
         port: 7371
-      middlewares:
-      - name: demo-redirectscheme
     - match: Host(`demo1.wshoto.com`)
       kind: Rule
       services:
         - name: wshoto-demo-user
           port: 7371
-      middlewares:
-        - name: demo-redirectscheme
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: demo-route
+  name: demo-route-redirect
   namespace: no-injection
 spec:
   entryPoints:
