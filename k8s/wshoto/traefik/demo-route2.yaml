@@ -6,14 +6,15 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`demo1.wshoto.com`)
       kind: Rule
       services:
-      - name: wshoto-demo-user
-        port: 7371
+        - name: wshoto-demo-user
+          port: 7371
       middlewares:
-      - name: demo-redirectscheme
+        - name: demo-redirectscheme
     - match: Host(`demo2.wshoto.com`)
       kind: Rule
       services:
