@@ -2,7 +2,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: demo-redirectscheme
-  namespace: demo
+  namespace: no-injection
 spec:
   redirectScheme:
     scheme: https
