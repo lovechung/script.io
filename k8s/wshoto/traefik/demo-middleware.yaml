@@ -1,9 +1,29 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: demo-redirectscheme
+  name: secured
+  namespace: no-injection
+spec:
+  chain:
+    middlewares:
+      - name: https-only
+      - name: proxy-header
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
   namespace: no-injection
 spec:
   redirectScheme:
     scheme: https
     permanent: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: proxy-header
+  namespace: no-injection
+spec:
+  headers:
+    hostsProxyHeaders: ["X-Forwarded-For","X-Real-IP","X-Forwarded-Host"]

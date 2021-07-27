@@ -13,11 +13,11 @@ spec:
         - name: wshoto-demo-user
           port: 7371
       middlewares:
-        - name: demo-redirectscheme
+        - name: secured
     - match: Host(`demo2.wshoto.com`)
       kind: Rule
       services:
         - name: wshoto-demo-user
           port: 7371
       middlewares:
-        - name: demo-redirectscheme
+        - name: secured
