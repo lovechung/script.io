@@ -6,25 +6,6 @@ metadata:
 spec:
   entryPoints:
     - web
-  routes:
-    - match: Host(`demo1.wshoto.com`)
-      kind: Rule
-      services:
-        - name: wshoto-demo-user
-          port: 7371
-    - match: Host(`demo2.wshoto.com`)
-      kind: Rule
-      services:
-        - name: wshoto-demo-user
-          port: 7371
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: demo-route-redirect
-  namespace: no-injection
-spec:
-  entryPoints:
     - websecure
   routes:
     - match: Host(`demo1.wshoto.com`)
