@@ -21,15 +21,15 @@ metadata:
   namespace: kuboard
 spec:
   hosts:
-  - "*"
+  - "kuboard.local.com"
   gateways:
   - kuboard-gateway
   http:
   - match:
     - uri:
-        prefix: /kuboard
+        prefix: /
     route:
     - destination:
         host: kuboard-v3
         port:
-          number: 30080
+          number: 80
