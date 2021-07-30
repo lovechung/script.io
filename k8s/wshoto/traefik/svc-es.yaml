@@ -4,8 +4,10 @@ metadata:
   name: host-es
   namespace: demo
 spec:
-  clusterIP: None
   type: ClusterIP
+  ports:
+    - port: 8085
+      targetPort: 18085
 ---
 apiVersion: v1
 kind: Endpoints
@@ -14,4 +16,6 @@ metadata:
   namespace: demo
 subsets:
   - addresses:
-      - ip: www.baidu.com
+      - ip: 39.96.95.53
+    ports:
+      - port: 18085
