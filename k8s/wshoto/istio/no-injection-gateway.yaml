@@ -12,18 +12,17 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-#      - demo.wshoto.com
-      - "*"
-#    tls:
-#      httpsRedirect: true
-#  - port:
-#      number: 443
-#      name: https
-#      protocol: HTTPS
-#    hosts:
-#      - demo.wshoto.com
-#    tls:
-#      credentialName: demo-ssl-secret
+      - demo.wshoto.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - demo.wshoto.com
+    tls:
+      credentialName: demo-ssl-secret
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
