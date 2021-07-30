@@ -12,7 +12,8 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-      - demo.wshoto.com
+#      - demo.wshoto.com
+      - "*"
 #    tls:
 #      httpsRedirect: true
 #  - port:
