@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: es-route
+  namespace: demo
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`echo.local.com`)
+      kind: Rule
+      services:
+        - name: echo
+          port: 8085
