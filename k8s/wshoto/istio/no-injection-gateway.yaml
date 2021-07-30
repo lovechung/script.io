@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-      - demo.local.com
+      - demo.wshoto.com
     tls:
       httpsRedirect: true
   - port:
@@ -20,7 +20,7 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-      - demo.local.com
+      - demo.wshoto.com
     tls:
       credentialName: demo-ssl-secret
 ---
