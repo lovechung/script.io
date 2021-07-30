@@ -15,6 +15,9 @@ nodes:
   extraPortMappings:
   # kind/node容器中映射出来的端口，与istio.gateway搭配使用的话，需与其暴露的nodeport保持一致
   - containerPort: 30000
-    hostPort: 30000
+    hostPort: 80
     listenAddress: "0.0.0.0"
     protocol: tcp
+- role: worker
+- role: worker
+- role: worker
