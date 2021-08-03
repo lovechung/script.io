@@ -1,0 +1,19 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: gitee-listener
+spec:
+  serviceAccountName: tekton-triggers-gitee-sa
+  triggers:
+    - name: gitee-push-events-trigger
+      interceptors:
+        - webhook:
+            secretRef:  # 引用 gitee-secret 的 Secret 对象中的 secretToken 的值
+              secretName: gitee-secret
+              secretKey: secretToken
+            eventTypes:
+              - Push Hook  # 只接收 gitee Push 事件
+      bindings:
+        - name: gitee-push-binding  # TriggerBinding 对象
+      template:
+        name: gitee-echo-template  # TriggerTemplate 对象
