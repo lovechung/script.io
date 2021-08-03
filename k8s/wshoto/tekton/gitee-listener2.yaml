@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
-  name: gitee-listener
+  name: v
 spec:
   serviceAccountName: tekton-triggers-gitee-sa
   triggers:
