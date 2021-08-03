@@ -16,6 +16,6 @@ spec:
                   - array-val1
                   - array-val2
       bindings:
-        - name: gitee-push-binding  # TriggerBinding 对象
+        - ref: gitee-push-binding  # TriggerBinding 对象
       template:
-        name: gitee-echo-template  # TriggerTemplate 对象
+        ref: gitee-echo-template  # TriggerTemplate 对象
