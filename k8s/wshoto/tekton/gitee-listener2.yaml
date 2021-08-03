@@ -8,9 +8,16 @@ spec:
     - name: gitee-push-events-trigger
       interceptors:
         - webhook:
-            secretRef:  # 引用 gitee-secret 的 Secret 对象中的 secretToken 的值
-              secretName: gitee-secret
-              secretKey: secretToken
+            header:
+              - name: Foo-Trig-Header1
+                value: string-value
+              - name: Foo-Trig-Header2
+                value:
+                  - array-val1
+                  - array-val2
+#            secretRef:  # 引用 gitee-secret 的 Secret 对象中的 secretToken 的值
+#              secretName: gitee-secret
+#              secretKey: secretToken
 #            eventTypes:
 #              - Push Hook  # 只接收 gitee Push 事件
       bindings:
