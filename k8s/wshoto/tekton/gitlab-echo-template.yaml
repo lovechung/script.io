@@ -12,7 +12,7 @@ spec:
       metadata:
         generateName: gitee-run-  # TaskRun 名称前缀
       spec:
-        serviceAccountName: tekton-triggers-gitee-sa
+        serviceAccountName: tekton-triggers-example-sa
         taskSpec:  # Task 任务声明
           inputs:
             resources:  # 定义一个名为 source 的 git 输入资源

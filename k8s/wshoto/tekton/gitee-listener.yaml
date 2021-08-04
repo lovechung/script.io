@@ -3,7 +3,7 @@ kind: EventListener
 metadata:
   name: gitee-listener
 spec:
-  serviceAccountName: tekton-triggers-gitee-sa
+  serviceAccountName: tekton-triggers-example-sa
   triggers:
     - name: gitee-push-events-trigger
       interceptors:
