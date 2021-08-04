@@ -5,6 +5,8 @@ metadata:
 spec:
   params:
     - name: gitrevision
-      value: $(head_commit.id)
+#      value: $(head_commit.id)
+      value: 3a6902040b2fd1e240315a84611d36eef14b4f2f
     - name: gitrepositoryurl
-      value: $(repository.url)
+#      value: $(repository.url)
+      value: https://gitee.com/oschina/git-osc
