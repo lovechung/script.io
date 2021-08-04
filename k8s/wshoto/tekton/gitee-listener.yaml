@@ -6,12 +6,7 @@ spec:
   serviceAccountName: tekton-triggers-example-sa
   triggers:
     - name: gitee-push-events-trigger
-      interceptors:
-        - webhook:
-            header:
-              - name: Foo-Trig-Header1
-                value: string-value
       bindings:
-        - ref: gitee-push-binding  # TriggerBinding 对象
+        - ref: gitee-push-binding
       template:
-        ref: gitee-echo-template  # TriggerTemplate 对象
+        ref: gitee-echo-template

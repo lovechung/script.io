@@ -9,5 +9,5 @@ spec:
     - match: Host(`devops.eplus.ltd`)
       kind: Rule
       services:
-        - name: el-gitee-listener  # 关联 EventListener 服务
+        - name: el-gitee-listener
           port: 8080
