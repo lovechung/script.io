@@ -3,6 +3,8 @@ kind: IngressRoute
 metadata:
   name: el-gitee-listener
 spec:
+  entryPoints:
+    - web
   routes:
     - match: Host(`devops.eplus.ltd`)
       kind: Rule
