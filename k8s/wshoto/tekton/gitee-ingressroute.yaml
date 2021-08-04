@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: el-gitee-listener
+spec:
+  routes:
+    - match: Host(`devops.eplus.ltd`)
+      kind: Rule
+      services:
+        - name: el-gitee-listener  # 关联 EventListener 服务
+          port: 8080
