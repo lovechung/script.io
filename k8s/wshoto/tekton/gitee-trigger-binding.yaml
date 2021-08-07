@@ -4,7 +4,9 @@ metadata:
   name: gitee-push-binding
 spec:
   params:
+    # 获取git提交id
     - name: gitrevision
       value: $(body.head_commit.id)
+    # 获取git仓库地址
     - name: gitrepositoryurl
       value: $(body.repository.url)

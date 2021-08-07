@@ -3,6 +3,7 @@ kind: ServiceAccount
 metadata:
   name: tekton-triggers-example-sa
 secrets:
+  # 引用密钥
   - name: gitee-secret
   - name: gitee-auth
 ---
@@ -16,6 +17,7 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
+  # 绑定 admin 角色
   name: tekton-triggers-admin
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -29,4 +31,5 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
+  # 绑定 admin 角色
   name: tekton-triggers-admin

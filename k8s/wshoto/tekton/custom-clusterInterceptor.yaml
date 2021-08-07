@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: ClusterInterceptor
+metadata:
+  name: custom
+spec:
+  clientConfig:
+    # 自定义的service
+    service:
+      name: "tekton-custom-intercepter"
+      namespace: "demo"
+      path: "/"
+      port: 8080

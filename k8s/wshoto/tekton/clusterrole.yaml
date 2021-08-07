@@ -1,11 +1,12 @@
-kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
   name: tekton-triggers-admin
   labels:
     app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
+  ########################## 与原权限相同 ##########################
   - apiGroups: [""]
     resources: ["configmaps", "services", "events"]
     verbs: ["get", "list", "create", "update", "delete", "patch", "watch"]
@@ -27,6 +28,7 @@ rules:
   - apiGroups: ["serving.knative.dev"]
     resources: ["*", "*/status", "*/finalizers"]
     verbs: ["get", "list", "create", "update", "delete", "deletecollection", "patch", "watch"]
+  ########################## 新增权限 ##########################
   - apiGroups: ["tekton.dev"]
     resources: ["pipelineruns", "pipelineresources", "taskruns"]
     verbs: ["create"]

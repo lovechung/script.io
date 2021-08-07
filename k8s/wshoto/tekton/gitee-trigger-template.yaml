@@ -13,21 +13,21 @@ spec:
         generateName: gitee-run-  # TaskRun 名称前缀
       spec:
         serviceAccountName: tekton-triggers-example-sa
-        taskSpec:  # Task 任务声明
+        taskSpec:
           inputs:
-            resources:  # 定义一个名为 source 的 git 输入资源
+            resources:
               - name: source
                 type: git
           steps:
             - name: show-path
-              image: ubuntu  # 定义一个执行步骤，列出代码目录结构
+              image: ubuntu  # 定义一个执行操作：列出代码仓库根目录结构
               script: |
                 #! /bin/bash
                 ls -la $(inputs.resources.source.path)
-        inputs:  # 声明具体的输入资源参数
+        inputs:
           resources:
-            - name: source  # 和 Task 中的资源名保持一直
-              resourceSpec:  # 资源声明
+            - name: source
+              resourceSpec:
                 type: git
                 params:
                   - name: revision

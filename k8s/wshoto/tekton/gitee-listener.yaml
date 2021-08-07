@@ -6,6 +6,18 @@ spec:
   serviceAccountName: tekton-triggers-example-sa
   triggers:
     - name: gitee-push-events-trigger
+      interceptors:
+          # 使用自定义的拦截器实现
+        - ref:
+            apiVersion: triggers.tekton.dev
+            kind: ClusterInterceptor
+            name: "custom"
+          # 传入额外参数
+          #params:
+          #  - name: "secretRef"
+          #    value:
+          #      secretName: github-secret
+          #      secretKey: secretToken
       bindings:
         - ref: gitee-push-binding
       template:
