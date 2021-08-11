@@ -69,6 +69,8 @@ metadata:
   name: wshoto-demo-order-deploy-task
   namespace: tekton-pipelines
 spec:
+  params:
+    - name: profile
   workspaces:
     - name: src
       mountPath: /workspace
@@ -80,7 +82,7 @@ spec:
       args:
         - apply
         - -k
-        - /workspace/wshoto-demo-order/.deploy/overlays/test
+        - /workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
@@ -96,31 +98,35 @@ spec:
       default: .
     - name: imageUrl
     - name: imageTag
+    - name: profile
   workspaces:
     - name: wshoto-demo-order-share-data
   tasks:
-  - name: wshoto-demo-order-build-task
-    taskRef:
-      name: wshoto-demo-order-build-task
-    workspaces:
-      - name: output
-        workspace: wshoto-demo-order-share-data
-    params:
-      - name: pathToContext
-        value: "$(params.pathToContext)"
-      - name: imageUrl
-        value: "$(params.imageUrl)"
-      - name: imageTag
-        value: "$(params.imageTag)"
-    resources:
-      inputs:
-        - name: wshoto-demo-order
-          resource: wshoto-demo-order
-  - name: wshoto-demo-order-deploy-task
-    runAfter:
-      - wshoto-demo-order-build-task
-    taskRef:
-      name: wshoto-demo-order-deploy-task
-    workspaces:
-      - name: src
-        workspace: wshoto-demo-order-share-data
+    - name: wshoto-demo-order-build-task
+      taskRef:
+        name: wshoto-demo-order-build-task
+      workspaces:
+        - name: output
+          workspace: wshoto-demo-order-share-data
+      params:
+        - name: pathToContext
+          value: "$(params.pathToContext)"
+        - name: imageUrl
+          value: "$(params.imageUrl)"
+        - name: imageTag
+          value: "$(params.imageTag)"
+      resources:
+        inputs:
+          - name: wshoto-demo-order
+            resource: wshoto-demo-order
+    - name: wshoto-demo-order-deploy-task
+      runAfter:
+        - wshoto-demo-order-build-task
+      taskRef:
+        name: wshoto-demo-order-deploy-task
+      workspaces:
+        - name: src
+          workspace: wshoto-demo-order-share-data
+      params:
+        - name: profile
+            value: "$(params.profile)"
