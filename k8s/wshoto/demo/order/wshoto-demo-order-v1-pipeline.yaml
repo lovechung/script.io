@@ -77,12 +77,11 @@ spec:
   steps:
     - name: run-kubectl
       image: lachlanevenson/k8s-kubectl
-      command:
-        - kubectl
+      command: [ "kubectl" ]
       args:
-        - apply
-        - -k
-        - /workspace/wshoto-demo-order/.deploy/overlays/${params.profile}
+        - "apply"
+        - "-k"
+        - "/workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)"
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
