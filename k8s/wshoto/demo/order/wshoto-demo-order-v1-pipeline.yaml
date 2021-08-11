@@ -82,7 +82,7 @@ spec:
       args:
         - apply
         - -k
-        - /workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)
+        - /workspace/wshoto-demo-order/.deploy/overlays/${params.profile}
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
@@ -129,4 +129,4 @@ spec:
           workspace: wshoto-demo-order-share-data
       params:
         - name: profile
-            value: "$(params.profile)"
+          value: "$(params.profile)"
