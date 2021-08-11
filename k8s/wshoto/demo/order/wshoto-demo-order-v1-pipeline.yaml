@@ -40,7 +40,12 @@ spec:
       image: wshoto.tencentcloudcr.com/qwgj/kustomize:latest
       workingDir: /workspace/wshoto-demo-order/.deploy/overlays/test
       command:
-        - kustomize edit set image wshoto.tencentcloudcr.com/qwgj/wshoto-demo-order:v1
+        - kustomize
+      args:
+        - edit
+        - set
+        - image
+        - wshoto.tencentcloudcr.com/qwgj/wshoto-demo-order:v1
     - name: build-and-push
       image: wshoto.tencentcloudcr.com/qwgj/kaniko-executor:latest
       command:
