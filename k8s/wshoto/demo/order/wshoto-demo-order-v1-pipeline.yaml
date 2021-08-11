@@ -71,18 +71,20 @@ metadata:
 spec:
   params:
     - name: pathToYamlFile
-      default: deployment-test.yaml
+      default: kustomization.yaml
   workspaces:
     - name: src
       mountPath: /workspace
   steps:
     - name: run-kubectl
-      image: lachlanevenson/k8s-kubectl
-      command: ["kubectl"]
+      image: wshoto.tencentcloudcr.com/qwgj/kustomize:latest
+      workingDir: /workspace/wshoto-demo-order/.deploy/overlays/test
+      command:
+        - kustomize
       args:
-        - "apply"
-        - "-f"
-        - "/workspace/wshoto-demo-order/.deploy/$(params.pathToYamlFile)"
+        - apply
+        - -k
+        - $(params.pathToYamlFile)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
@@ -99,7 +101,7 @@ spec:
     - name: imageUrl
     - name: imageTag
     - name: pathToYamlFile
-      default: deployment-test.yaml
+      default: kustomization.yaml
   workspaces:
     - name: wshoto-demo-order-share-data
   tasks:

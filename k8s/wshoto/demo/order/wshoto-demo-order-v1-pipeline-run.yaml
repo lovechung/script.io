@@ -36,4 +36,4 @@ spec:
     - name: imageTag
       value: v1
     - name: pathToYamlFile
-      value: deployment-test.yaml
+      value: kustomization.yaml
