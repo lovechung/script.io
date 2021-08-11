@@ -77,10 +77,10 @@ spec:
       mountPath: /workspace
   steps:
     - name: run-kubectl
-      image: wshoto.tencentcloudcr.com/qwgj/kustomize:latest
+      image: lachlanevenson/k8s-kubectl
       workingDir: /workspace/wshoto-demo-order/.deploy/overlays/test
       command:
-        - kustomize
+        - kubectl
       args:
         - apply
         - -k
