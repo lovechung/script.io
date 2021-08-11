@@ -78,13 +78,12 @@ spec:
   steps:
     - name: run-kubectl
       image: lachlanevenson/k8s-kubectl
-      workingDir: /workspace/wshoto-demo-order/.deploy/overlays/test
       command:
         - kubectl
       args:
         - apply
         - -k
-        - $(params.pathToYamlFile)
+        - /workspace/wshoto-demo-order/.deploy/overlays/test/$(params.pathToYamlFile)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
