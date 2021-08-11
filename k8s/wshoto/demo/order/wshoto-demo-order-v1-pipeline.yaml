@@ -69,9 +69,6 @@ metadata:
   name: wshoto-demo-order-deploy-task
   namespace: tekton-pipelines
 spec:
-  params:
-    - name: pathToYamlFile
-      default: kustomization.yaml
   workspaces:
     - name: src
       mountPath: /workspace
@@ -83,7 +80,7 @@ spec:
       args:
         - apply
         - -k
-        - /workspace/wshoto-demo-order/.deploy/overlays/test/$(params.pathToYamlFile)
+        - /workspace/wshoto-demo-order/.deploy/overlays/test
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
@@ -99,8 +96,6 @@ spec:
       default: .
     - name: imageUrl
     - name: imageTag
-    - name: pathToYamlFile
-      default: kustomization.yaml
   workspaces:
     - name: wshoto-demo-order-share-data
   tasks:
@@ -129,6 +124,3 @@ spec:
     workspaces:
       - name: src
         workspace: wshoto-demo-order-share-data
-    params:
-      - name: pathToYamlFile
-        value: "$(params.pathToYamlFile)"

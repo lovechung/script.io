@@ -35,5 +35,3 @@ spec:
       value: wshoto.tencentcloudcr.com/qwgj/wshoto-demo-order
     - name: imageTag
       value: v1
-    - name: pathToYamlFile
-      value: kustomization.yaml
