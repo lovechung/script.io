@@ -116,7 +116,7 @@ spec:
         - name: imageTag
           value: "$(params.imageTag)"
         - name: profile
-            value: "$(params.profile)"
+          value: "$(params.profile)"
       resources:
         inputs:
           - name: wshoto-demo-order
