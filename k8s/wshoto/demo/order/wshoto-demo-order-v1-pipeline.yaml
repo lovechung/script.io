@@ -16,6 +16,7 @@ spec:
     - name: imageUrl
     - name: imageTag
       default: v1
+    - name: profile
   workspaces:
     - name: output
       mountPath: /workspace
@@ -38,14 +39,14 @@ spec:
           mountPath: /root/.m2
     - name: kustomize-edit
       image: wshoto.tencentcloudcr.com/qwgj/kustomize:latest
-      workingDir: /workspace/wshoto-demo-order/.deploy/overlays/test
+      workingDir: /workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)
       command:
         - kustomize
       args:
         - edit
         - set
         - image
-        - wshoto.tencentcloudcr.com/qwgj/wshoto-demo-order:v1
+        - $(params.imageUrl):$(params.imageTag)
     - name: build-and-push
       image: wshoto.tencentcloudcr.com/qwgj/kaniko-executor:latest
       command:
@@ -114,6 +115,8 @@ spec:
           value: "$(params.imageUrl)"
         - name: imageTag
           value: "$(params.imageTag)"
+        - name: profile
+            value: "$(params.profile)"
       resources:
         inputs:
           - name: wshoto-demo-order
