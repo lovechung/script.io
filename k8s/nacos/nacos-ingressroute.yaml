@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nacos
+  namespace: nacos
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`nacos.local.com`)
+    kind: Rule
+    services:
+    - name: nacos
+      port: 8848

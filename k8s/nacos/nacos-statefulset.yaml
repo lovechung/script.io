@@ -1,0 +1,149 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos-headless
+  namespace: nacos
+  labels:
+    app: nacos-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 7848
+      name: rpc
+      targetPort: 7848
+  selector:
+    app: nacos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  namespace: nacos
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 7848
+      name: rpc
+      targetPort: 7848
+  selector:
+    app: nacos      
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacos-cm
+  namespace: nacos
+data:
+  mysql.db.name: "nacos"
+  mysql.host: "mysql-0.mysql-headless.db.svc.cluster.local"
+  mysql.port: "3306"
+  mysql.user: "nacos"
+  mysql.password: "nacos"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nacos
+  app: nacos
+  namespace: nacos
+  labels:
+    app: nacos
+spec:
+  serviceName: nacos-headless
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nacos
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - nacos
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: k8snacos
+          imagePullPolicy: IfNotPresent
+          image: nacos/nacos-server:1.4.0
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 4Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 7848
+              name: rpc
+          env:
+            - name: NACOS_REPLICAS
+              value: "3"
+            - name: MYSQL_SERVICE_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.db.name
+            - name: MYSQL_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.host
+            - name: MYSQL_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.port
+            - name: MYSQL_SERVICE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.user
+            - name: MYSQL_SERVICE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.password
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+            - name: NACOS_SERVERS
+              value: "nacos-0.nacos-headless.nacos.svc.cluster.local:8848 nacos-1.nacos-headless.nacos.svc.cluster.local:8848 nacos-2.nacos-headless.nacos.svc.cluster.local:8848"
+          volumeMounts:
+            - name: logdir
+              mountPath: /home/nacos/logs
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: logdir
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 50Gi
+        storageClassName: cbs
+        volumeMode: Filesystem
+  selector:
+    matchLabels:
+      app: nacos
