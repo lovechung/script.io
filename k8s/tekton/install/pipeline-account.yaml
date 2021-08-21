@@ -2,24 +2,19 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: pipeline-account
----
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: pipeline-role
-rules:
-  - apiGroups: ["serving.knative.dev"]
-    resources: ["services"]
-    verbs: ["get", "create", "update", "patch"]
+  namespace: tekton-pipelines
+secrets:
+  - name: gitee-auth
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: pipeline-role-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: pipeline-role
+  kind: ClusterRole
+  name: cluster-admin
 subjects:
   - kind: ServiceAccount
     name: pipeline-account
+    namespace: tekton-pipelines

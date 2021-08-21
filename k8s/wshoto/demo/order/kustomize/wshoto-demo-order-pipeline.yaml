@@ -1,12 +1,12 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: wshoto-demo-user-build-task
+  name: wshoto-demo-product-build-task
   namespace: tekton-pipelines
 spec:
   inputs:
     resources:
-      - name: wshoto-demo-user
+      - name: wshoto-demo-product
         type: git
   params:
     - name: pathToContext
@@ -23,7 +23,7 @@ spec:
   steps:
     - name: maven
       image: maven:3.6.3-openjdk-8-slim
-      workingDir: /workspace/wshoto-demo-user
+      workingDir: /workspace/wshoto-demo-product
       command:
         - mvn
       args:
@@ -39,7 +39,7 @@ spec:
           mountPath: /root/.m2
     - name: kustomize-edit
       image: registry.cn-hangzhou.aliyuncs.com/lovechung/kubectl
-      workingDir: /workspace/wshoto-demo-user/.deploy/overlays/$(params.profile)
+      workingDir: /workspace/wshoto-demo-product/.deploy/overlays/$(params.profile)
       command:
         - kustomize
       args:
@@ -54,7 +54,7 @@ spec:
       args:
         - --dockerfile=$(params.pathToDockerFile)
         - --destination=$(params.imageUrl):$(params.imageTag)
-        - --context=/workspace/wshoto-demo-user/wshoto-demo-user-server/wshoto-demo-user-server-bootstrap/$(params.pathToContext)
+        - --context=/workspace/wshoto-demo-product/wshoto-demo-product-server/wshoto-demo-product-server-bootstrap/$(params.pathToContext)
   volumes:
     - name: config
       configMap:
@@ -67,7 +67,7 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: wshoto-demo-user-deploy-task
+  name: wshoto-demo-product-deploy-task
   namespace: tekton-pipelines
 spec:
   params:
@@ -83,16 +83,16 @@ spec:
       args:
         - apply
         - -k
-        - /workspace/wshoto-demo-user/.deploy/overlays/$(params.profile)
+        - /workspace/wshoto-demo-product/.deploy/overlays/$(params.profile)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: wshoto-demo-user-pipeline
+  name: wshoto-demo-product-pipeline
   namespace: tekton-pipelines
 spec:
   resources:
-    - name: wshoto-demo-user
+    - name: wshoto-demo-product
       type: git
   params:
     - name: pathToContext
@@ -101,14 +101,14 @@ spec:
     - name: imageTag
     - name: profile
   workspaces:
-    - name: wshoto-demo-user-share-data
+    - name: wshoto-demo-product-share-data
   tasks:
-  - name: wshoto-demo-user-build-task
+  - name: wshoto-demo-product-build-task
     taskRef:
-      name: wshoto-demo-user-build-task
+      name: wshoto-demo-product-build-task
     workspaces:
       - name: output
-        workspace: wshoto-demo-user-share-data
+        workspace: wshoto-demo-product-share-data
     params:
       - name: pathToContext
         value: "$(params.pathToContext)"
@@ -120,16 +120,16 @@ spec:
         value: "$(params.profile)"
     resources:
       inputs:
-        - name: wshoto-demo-user
-          resource: wshoto-demo-user
-  - name: wshoto-demo-user-deploy-task
+        - name: wshoto-demo-product
+          resource: wshoto-demo-product
+  - name: wshoto-demo-product-deploy-task
     runAfter:
-      - wshoto-demo-user-build-task
+      - wshoto-demo-product-build-task
     taskRef:
-      name: wshoto-demo-user-deploy-task
+      name: wshoto-demo-product-deploy-task
     workspaces:
       - name: src
-        workspace: wshoto-demo-user-share-data
+        workspace: wshoto-demo-product-share-data
     params:
       - name: profile
         value: "$(params.profile)"
