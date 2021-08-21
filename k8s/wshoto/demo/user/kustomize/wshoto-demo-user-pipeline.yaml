@@ -39,7 +39,7 @@ spec:
           mountPath: /root/.m2
     - name: kustomize-edit
       image: registry.cn-hangzhou.aliyuncs.com/lovechung/kubectl
-      workingDir: /workspace/wshoto-appcenter/.deploy/overlays/$(params.profile)
+      workingDir: /workspace/wshoto-demo-user/.deploy/overlays/$(params.profile)
       command:
         - kustomize
       args:
@@ -62,7 +62,7 @@ spec:
         name: maven-config
     - name: m2
       hostPath:
-        path: /home/docker/.m2
+        path: /data/.m2
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
