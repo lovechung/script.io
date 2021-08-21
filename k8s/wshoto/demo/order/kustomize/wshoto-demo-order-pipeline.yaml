@@ -1,12 +1,12 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: wshoto-demo-product-build-task
+  name: wshoto-demo-order-build-task
   namespace: tekton-pipelines
 spec:
   inputs:
     resources:
-      - name: wshoto-demo-product
+      - name: wshoto-demo-order
         type: git
   params:
     - name: pathToContext
@@ -23,7 +23,7 @@ spec:
   steps:
     - name: maven
       image: maven:3.6.3-openjdk-8-slim
-      workingDir: /workspace/wshoto-demo-product
+      workingDir: /workspace/wshoto-demo-order
       command:
         - mvn
       args:
@@ -39,7 +39,7 @@ spec:
           mountPath: /root/.m2
     - name: kustomize-edit
       image: registry.cn-hangzhou.aliyuncs.com/lovechung/kubectl
-      workingDir: /workspace/wshoto-demo-product/.deploy/overlays/$(params.profile)
+      workingDir: /workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)
       command:
         - kustomize
       args:
@@ -54,7 +54,7 @@ spec:
       args:
         - --dockerfile=$(params.pathToDockerFile)
         - --destination=$(params.imageUrl):$(params.imageTag)
-        - --context=/workspace/wshoto-demo-product/wshoto-demo-product-server/wshoto-demo-product-server-bootstrap/$(params.pathToContext)
+        - --context=/workspace/wshoto-demo-order/wshoto-demo-order-server/wshoto-demo-order-server-bootstrap/$(params.pathToContext)
   volumes:
     - name: config
       configMap:
@@ -67,7 +67,7 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: wshoto-demo-product-deploy-task
+  name: wshoto-demo-order-deploy-task
   namespace: tekton-pipelines
 spec:
   params:
@@ -83,16 +83,16 @@ spec:
       args:
         - apply
         - -k
-        - /workspace/wshoto-demo-product/.deploy/overlays/$(params.profile)
+        - /workspace/wshoto-demo-order/.deploy/overlays/$(params.profile)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: wshoto-demo-product-pipeline
+  name: wshoto-demo-order-pipeline
   namespace: tekton-pipelines
 spec:
   resources:
-    - name: wshoto-demo-product
+    - name: wshoto-demo-order
       type: git
   params:
     - name: pathToContext
@@ -101,14 +101,14 @@ spec:
     - name: imageTag
     - name: profile
   workspaces:
-    - name: wshoto-demo-product-share-data
+    - name: wshoto-demo-order-share-data
   tasks:
-  - name: wshoto-demo-product-build-task
+  - name: wshoto-demo-order-build-task
     taskRef:
-      name: wshoto-demo-product-build-task
+      name: wshoto-demo-order-build-task
     workspaces:
       - name: output
-        workspace: wshoto-demo-product-share-data
+        workspace: wshoto-demo-order-share-data
     params:
       - name: pathToContext
         value: "$(params.pathToContext)"
@@ -120,16 +120,16 @@ spec:
         value: "$(params.profile)"
     resources:
       inputs:
-        - name: wshoto-demo-product
-          resource: wshoto-demo-product
-  - name: wshoto-demo-product-deploy-task
+        - name: wshoto-demo-order
+          resource: wshoto-demo-order
+  - name: wshoto-demo-order-deploy-task
     runAfter:
-      - wshoto-demo-product-build-task
+      - wshoto-demo-order-build-task
     taskRef:
-      name: wshoto-demo-product-deploy-task
+      name: wshoto-demo-order-deploy-task
     workspaces:
       - name: src
-        workspace: wshoto-demo-product-share-data
+        workspace: wshoto-demo-order-share-data
     params:
       - name: profile
         value: "$(params.profile)"
