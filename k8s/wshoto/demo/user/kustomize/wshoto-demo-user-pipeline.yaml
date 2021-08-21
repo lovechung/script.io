@@ -1,0 +1,134 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: wshoto-demo-user-build-task
+  namespace: tekton-pipelines
+spec:
+  inputs:
+    resources:
+      - name: wshoto-demo-user
+        type: git
+  params:
+    - name: pathToContext
+      default: .
+    - name: pathToDockerFile
+      default: Dockerfile
+    - name: imageUrl
+    - name: imageTag
+      default: latest
+    - name: profile
+  workspaces:
+    - name: output
+      mountPath: /workspace
+  steps:
+    - name: maven
+      image: maven:3.6.3-openjdk-8-slim
+      workingDir: /workspace/wshoto-demo-user
+      command:
+        - mvn
+      args:
+        - clean
+        - package
+        - -U
+        - -DskipTests
+      volumeMounts:
+        - name: config
+          mountPath: /root/.m2/settings.xml
+          subPath: settings.xml
+        - name: m2
+          mountPath: /root/.m2
+    - name: kustomize-edit
+      image: registry.cn-hangzhou.aliyuncs.com/lovechung/kubectl
+      workingDir: /workspace/wshoto-appcenter/.deploy/overlays/$(params.profile)
+      command:
+        - kustomize
+      args:
+        - edit
+        - set
+        - image
+        - $(params.imageUrl):$(params.imageTag)
+    - name: build-and-push
+      image: registry.cn-hangzhou.aliyuncs.com/lovechung/kaniko-executor
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=$(params.pathToDockerFile)
+        - --destination=$(params.imageUrl):$(params.imageTag)
+        - --context=/workspace/wshoto-demo-user/wshoto-demo-user-server/wshoto-demo-user-server-bootstrap/$(params.pathToContext)
+  volumes:
+    - name: config
+      configMap:
+        defaultMode: 384
+        name: maven-config
+    - name: m2
+      hostPath:
+        path: /home/docker/.m2
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: wshoto-demo-user-deploy-task
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: profile
+  workspaces:
+    - name: src
+      mountPath: /workspace
+  steps:
+    - name: run-kubectl
+      image: registry.cn-hangzhou.aliyuncs.com/lovechung/kubectl
+      command: ["kubectl"]
+      args:
+        - "apply"
+        - "-k"
+        - "/workspace/wshoto-demo-user/.deploy/overlays/$(params.profile)"
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: wshoto-demo-user-pipeline
+  namespace: tekton-pipelines
+spec:
+  resources:
+    - name: wshoto-demo-user
+      type: git
+  params:
+    - name: pathToContext
+      default: .
+    - name: imageUrl
+    - name: imageTag
+    - name: profile
+  workspaces:
+    - name: wshoto-demo-user-share-data
+  tasks:
+  - name: wshoto-demo-user-build-task
+    taskRef:
+      name: wshoto-demo-user-build-task
+    workspaces:
+      - name: output
+        workspace: wshoto-demo-user-share-data
+    params:
+      - name: pathToContext
+        value: "$(params.pathToContext)"
+      - name: imageUrl
+        value: "$(params.imageUrl)"
+      - name: imageTag
+        value: "$(params.imageTag)"
+      - name: profile
+        value: "$(params.profile)"
+    resources:
+      inputs:
+        - name: wshoto-demo-user
+          resource: wshoto-demo-user
+  - name: wshoto-demo-user-deploy-task
+    runAfter:
+      - wshoto-demo-user-build-task
+    taskRef:
+      name: wshoto-demo-user-deploy-task
+    workspaces:
+      - name: src
+        workspace: wshoto-demo-user-share-data
+    params:
+      - name: profile
+        value: "$(params.profile)"

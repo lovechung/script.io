@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: wshoto-demo-user-generic-pr-
+  name: wshoto-demo-user-generic-pipeline-run
+  namespace: tekton-pipelines
+spec:
+  serviceAccountName: pipeline-account
+  pipelineRef:
+    name: wshoto-demo-user-pipeline
+  workspaces:
+    - name: wshoto-demo-user-share-data
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+  resources:
+    - name: wshoto-demo-user
+      resourceSpec:
+        type: git
+        params:
+          - name: url
+            value: https://gitee.com/wshoto/wshoto-demo-user.git
+          - name: revision
+            value: exp
+  params:
+    - name: imageUrl
+      value: registry.cn-hangzhou.aliyuncs.com/lovechung/wshoto-demo-user
+    - name: imageTag
+      value: latest
+    - name: profile
+      value: test

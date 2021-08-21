@@ -21,7 +21,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "kiali.wshmi.com"
+  - "kiali.local.com"
   gateways:
   - kiali-gateway
   http:
