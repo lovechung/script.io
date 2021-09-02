@@ -1,7 +1,7 @@
 - 使用镜像：registry.cn-hangzhou.aliyuncs.com/lovechung/artifactory-pro
-- 拷贝破解包（artifactory-injector-1.1.jar）至容器根目录
-- 进入容器：`docker exec -it artifactory bash`
-- 执行命令：`/opt/jfrog/artifactory/app/third-party/java/bin/java -jar artifactory-injector-1.1.jar`
+- 拷贝破解包（artifactory-injector-1.1.jar）至容器根目录：`docker cp artifactory-injector-1.1.jar xxx:root`
+- 进入容器：`docker exec -it arti bash`
+- 执行命令：`/opt/jfrog/artifactory/app/third-party/java/bin/java -jar ~/artifactory-injector-1.1.jar`
   
   得到以下输出：
   ```shell
