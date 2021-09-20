@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  postgis:
+    container_name: postgis
+    image: postgis/postgis
+    ports:
+      - 5432:5432
+    volumes:
+      - /data/postgres:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Jicco_2021
+  geoserver:
+    container_name: geoserver
+    image: kartoza/geoserver
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/geoserver:/opt/geoserver/data_dir
+    environment:
+      - SAMPLE_DATA=true
+      - GEOSERVER_ADMIN_USER=admin
+      - GEOSERVER_ADMIN_PASSWORD=admin
+  gdal:
+    container_name: gdal
+    image: osgeo/gdal:alpine-small-latest
+    volumes:
+      - /data/gdal:/data
