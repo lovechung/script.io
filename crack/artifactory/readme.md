@@ -1,5 +1,5 @@
 - 使用镜像：registry.cn-hangzhou.aliyuncs.com/lovechung/artifactory-pro
-- 拷贝破解包（artifactory-injector-1.1.jar）至容器根目录：`docker cp artifactory-injector-1.1.jar xxx:root`
+- 拷贝破解包（artifactory-injector-1.1.jar）至容器根目录：`docker cp artifactory-injector-1.1.jar arti:root`
 - 进入容器：`docker exec -it arti bash`
 - 执行命令：`/opt/jfrog/artifactory/app/third-party/java/bin/java -jar ~/artifactory-injector-1.1.jar`
   
@@ -13,4 +13,5 @@
   
   - 先选择2，输入artifactory目录：`/opt/jfrog/artifactory/app/artifactory/tomcat/` （注意：必须是 webapps/artifactory.war 所在的目录）
   - 再选择1，生成license code，退出
+- 重启arti容器
 - 拷贝license code
